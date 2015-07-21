@@ -23,4 +23,4 @@ $ npm install hexo-filter-auto-hyphenation --save
 
 ## Details
 
-This filter only hyphenate the text, it won't hyphenate things in `<table></table>`, `<code></code>` and `<pre></pre>`.
+This filter only hyphenate the text, it won't hyphenate things in `<code></code>` and `<pre></pre>`.

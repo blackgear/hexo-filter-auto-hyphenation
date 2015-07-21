@@ -1,6 +1,6 @@
 {
   "name": "hexo-filter-auto-hyphenation",
-  "version": "0.2.5",
+  "version": "0.2.7",
   "description": "Add hyphenation for English words.",
   "main": "index",
   "repository": {
