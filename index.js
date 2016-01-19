@@ -2,41 +2,43 @@ var Hypher = require('hypher'),
     english = require('hyphenation.en-us'),
     h = new Hypher(english);
 
-function hyphenate(m) {
-  return h.hyphenateText(m.replace(/([a-z])([A-Z])/g, "$1\u00AD$2"));
+function undo_hyphen(m) {
+  return m.replace(/[\u200B\u00AD]/g, '');
 }
 
-function meta_hyphen(m) {
+function hyphenate_text(m) {
+  return h.hyphenateText(m.replace(/([a-z])([A-Z])/g, "$1\u00AD$2"))
+          .replace(/\{%[^\}\r\n]*?\%}/g, undo_hyphen)
+          .replace(/^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/g, undo_hyphen);
+}
+
+function hyphenate_metadata(m) {
   m.data = m.data.map(function(d) {
-      d.name = hyphenate(d.name)
+      d.name = hyphenate_text(d.name)
       return d
   });
 }
 
+function after_hyphen(m) {
+  return m.replace(/<[^>]*>/g, undo_hyphen)
+          .replace(/<code>[\s\S]*?<\/code>/g, undo_hyphen)
+          .replace(/<pre>[\s\S]*?<\/pre>/g, undo_hyphen);
+}
+
 hexo.extend.filter.register('template_locals', function(locals){
   if (locals.page.categories) {
-    meta_hyphen(locals.page.categories)
+    hyphenate_metadata(locals.page.categories)
   }
   if (locals.page.tags) {
-    meta_hyphen(locals.page.tags)
+    hyphenate_metadata(locals.page.tags)
   }
   return locals;
 });
 
 hexo.extend.filter.register('before_post_render', function(data) {
-  data.title = hyphenate(data.title);
-  data.content = hyphenate(data.content);
+  data.title = hyphenate_text(data.title);
+  data.content = hyphenate_text(data.content);
 });
-
-function remove_hyphen(m) {
-  return m.replace(/[\u200B\u00AD]/g, '');
-}
-
-function after_hyphen(m) {
-  return m.replace(/<[^>]*>/g, remove_hyphen)
-          .replace(/<code>[\s\S]*?<\/code>/g, remove_hyphen)
-          .replace(/<pre>[\s\S]*?<\/pre>/g, remove_hyphen);
-}
 
 hexo.extend.filter.register('after_post_render', function(data) {
   data.title = after_hyphen(data.title);
