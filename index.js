@@ -8,8 +8,9 @@ function undo_hyphen(m) {
 
 function hyphenate_text(m) {
   return h.hyphenateText(m.replace(/([a-z])([A-Z])/g, "$1\u00AD$2"))
-          .replace(/\{%[^\}\r\n]*?\%}/g, undo_hyphen)
-          .replace(/^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/g, undo_hyphen);
+          .replace(/<[^>\r\n]*?>/g, undo_hyphen)
+          .replace(/\{%[^\}\r\n]*?%\}/g, undo_hyphen)
+          .replace(/(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/g, undo_hyphen);
 }
 
 function hyphenate_metadata(m) {
@@ -20,8 +21,7 @@ function hyphenate_metadata(m) {
 }
 
 function after_hyphen(m) {
-  return m.replace(/<[^>]*>/g, undo_hyphen)
-          .replace(/<code>[\s\S]*?<\/code>/g, undo_hyphen)
+  return m.replace(/<code>[\s\S]*?<\/code>/g, undo_hyphen)
           .replace(/<pre>[\s\S]*?<\/pre>/g, undo_hyphen);
 }
 
