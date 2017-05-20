@@ -22,7 +22,8 @@ function hyphenate_metadata(m) {
 }
 
 function after_hyphen(m) {
-  return m.replace(/<code>[\s\S]*?<\/code>/g, undo_hyphen)
+  return m.replace(/<head>[\s\S]*?<\/head>/g, undo_hyphen)
+          .replace(/<code>[\s\S]*?<\/code>/g, undo_hyphen)
           .replace(/<pre>[\s\S]*?<\/pre>/g, undo_hyphen);
 }
 

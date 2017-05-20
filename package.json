@@ -1,6 +1,6 @@
 {
   "name": "hexo-filter-auto-hyphenation",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Add hyphenation for English words.",
   "main": "index",
   "repository": {
@@ -18,8 +18,8 @@
   "author": "Daniel Zeng <daniel65536@gmail.com> (https://darknode.in)",
   "license": "MIT",
   "dependencies": {
-    "hypher": "^0.2.3",
-    "hyphenation.en-us": "^0.2.1"
+    "hypher": "latest",
+    "hyphenation.en-us": "latest"
   },
   "homepage": "https://github.com/BlackGear/hexo-filter-auto-hyphenation#readme"
 }
