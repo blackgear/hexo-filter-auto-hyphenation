@@ -9,7 +9,7 @@ function undo_hyphen(m) {
 function hyphenate_text(m) {
   return h.hyphenateText(m.replace(/([a-z])([A-Z])/g, "$1\u00AD$2")
                           .replace(/(\w)(\\?[\_\-])(\w)/g, "$1\u200B$2\u200B$3"))
-          .replace(/^\u200B/gm, '')
+          .replace(/^[\u200B\u00AD]*/gm, '')
           .replace(/<[^>\r\n]*?>/g, undo_hyphen)
           .replace(/\{%[^\}\r\n]*?%\}/g, undo_hyphen)
           .replace(/(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/g, undo_hyphen);
